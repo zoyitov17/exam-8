@@ -271,4 +271,3 @@ const CurrencyDetail = () => {
 };
 
 export default CurrencyDetail;
-

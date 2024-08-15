@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaEye } from "react-icons/fa";
-import "./style.css";
-import { Button, Drawer } from "flowbite-react";
 import { Link } from "react-router-dom";
+import "./style.css";
 
 const MarketTable = ({ currency }) => {
   const [cryptoData, setCryptoData] = useState([]);
@@ -61,15 +60,93 @@ const MarketTable = ({ currency }) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = cryptoData.slice(indexOfFirstItem, indexOfLastItem);
 
+  const totalPages = Math.ceil(cryptoData.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const Pagination = ({ totalPages, currentPage, onPageChange }) => {
+    const pageNumbers = [];
+    const maxPageNumbers = 5; 
+
+    for (let i = 1; i <= totalPages; i++) {
+      if (
+        i <= maxPageNumbers ||
+        i === totalPages ||
+        i === currentPage ||
+        (i >= currentPage - Math.floor(maxPageNumbers / 2) &&
+          i <= currentPage + Math.floor(maxPageNumbers / 2))
+      ) {
+        pageNumbers.push(i);
+      } else if (
+        i === currentPage - Math.floor(maxPageNumbers / 2) - 1 ||
+        i === currentPage + Math.floor(maxPageNumbers / 2) + 1
+      ) {
+        pageNumbers.push("...");
+      }
+    }
+
+    return (
+      <div className="pagination">
+        <button
+          className={`pagination_button ${
+            currentPage === 1 ? "pagination_button_disable" : ""
+          }`}
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          {"<"}
+        </button>
+        {pageNumbers.map((number, index) =>
+          number === "..." ? (
+            <span
+              key={index}
+              className="pagination_button pagination_button_disable"
+            >
+              ...
+            </span>
+          ) : (
+            <button
+              key={number}
+              className={`pagination_button ${
+                number === currentPage ? "active" : ""
+              }`}
+              onClick={() => onPageChange(number)}
+            >
+              {number}
+            </button>
+          )
+        )}
+        <button
+          className={`pagination_button ${
+            currentPage === totalPages ? "pagination_button_disable" : ""
+          }`}
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          {">"}
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div className="max-w-7xl mx-auto my-0 mt-4 pl-5 pr-5">
       <h2 className="text-white text-[34px] mb-7 font-normal leading-[42px] tracking-[0.25px] text-center">
         Cryptocurrency Prices by Market Cap
       </h2>
+      <div className="max-w-6xl ">
+        <input
+          type="text"
+          className="bg-transparent border h-14 border-[rgba(255,255,255,0.7)] outline-none w-full mb-5 text-base font-normal leading-4 text-[rgba(255,255,255,0.7)]"
+          placeholder="Search For a Crypto Currency.."
+        />
+      </div>
       <div className="overflow-x-auto bg-[rgba(66,66,66,1)] rounded-md w-full">
         <table className="w-full">
           <thead className="bg-[rgba(135,206,235,1)]">
-            <tr className="rounded-md w-full h-14 ">
+            <tr className="rounded-md w-full h-14">
               <th className="p-4 w-[35%] border-b border-[rgba(81,81,81,1)] text-black text-base font-bold leading-6 text-left">
                 Coin
               </th>
@@ -98,10 +175,12 @@ const MarketTable = ({ currency }) => {
                   />
                   <div>
                     <div className="text-[22px] font-normal leading-[31.46px] text-left text-[rgba(255,255,255,1)]">
-                      {coin.symbol.toUpperCase()}
+                      <Link to={`/currencydetail/${coin.id}`}>
+                        {coin.symbol.toUpperCase()}
+                      </Link>
                     </div>
                     <div className="text-sm font-normal leading-[20.02px] text-left text-[rgba(169,169,169,1)]">
-                      {coin.name}
+                      <Link to={`/currencydetail/${coin.id}`}>{coin.name}</Link>
                     </div>
                   </div>
                 </td>
@@ -117,15 +196,18 @@ const MarketTable = ({ currency }) => {
                   {coin.price_change_percentage_24h.toFixed(2)}%
                 </td>
                 <td className="p-4 text-sm font-normal leading-[20.02px] text-[rgba(255,255,255,1)] tracking-[0.15000000596046448px] text-right">
-                  <Link to={`/currencydetail/${coin.id}`}>
-                    {formatCurrency(coin.market_cap / 1e6)}M
-                  </Link>
+                  {formatCurrency(coin.market_cap / 1e6)}M
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };

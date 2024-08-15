@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import DrawerSection from "../watchlist/WatchList";  
 
 function Nav({ onCurrencyChange }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = () => setIsOpen(false);
+
   return (
     <div className="max-w-7xl h-16 mx-auto flex items-center px-5">
       <div className="w-full h-full flex items-center justify-between">
@@ -22,9 +27,13 @@ function Nav({ onCurrencyChange }) {
               <option value="RUB">RUB</option>
             </select>
           </div>
-          <button className="rounded bg-[rgba(135,206,235,1)] w-32 h-10 flex items-center justify-center">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="rounded bg-[rgba(135,206,235,1)] w-32 h-10 flex items-center justify-center"
+          >
             WATCH LIST
           </button>
+          <DrawerSection handleClose={handleClose} isOpen={isOpen} />
         </div>
       </div>
     </div>
@@ -32,5 +41,3 @@ function Nav({ onCurrencyChange }) {
 }
 
 export default Nav;
-
-
