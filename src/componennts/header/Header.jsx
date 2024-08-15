@@ -5,19 +5,41 @@ import "./style.css";
 
 function CryptoCarousel() {
   const [cryptoData, setCryptoData] = useState([]);
+  const [visibleCoins, setVisibleCoins] = useState([]);
+  const [startIndex, setStartIndex] = useState(0);
+  const itemsPerPage = 4;
 
   useEffect(() => {
     axios
       .get(
-        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&order=gecko_desc&per_page=4&page=1&sparkline=false&price_change_percentage=24h"
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=USD&order=gecko_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24h"
       )
       .then((response) => {
         setCryptoData(response.data);
+        setVisibleCoins(response.data.slice(0, itemsPerPage));
       })
       .catch((error) => {
         console.error("Error fetching cryptocurrency data:", error);
       });
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStartIndex((prevIndex) => {
+        const nextIndex = prevIndex + itemsPerPage;
+        if (nextIndex >= cryptoData.length) {
+          return 0; 
+        }
+        return nextIndex;
+      });
+    }, 3000); 
+
+    return () => clearInterval(interval);
+  }, [cryptoData]);
+
+  useEffect(() => {
+    setVisibleCoins(cryptoData.slice(startIndex, startIndex + itemsPerPage));
+  }, [startIndex, cryptoData]);
 
   const formatChangeColor = (percentage) => {
     if (percentage > 0) return "text-green-500";
@@ -43,11 +65,11 @@ function CryptoCarousel() {
         </p>
         <Carousel
           className="h-48 max-w-6xl mx-auto my-0 mt-10"
-          showArrows={true}
+          showArrows={false}
           showThumbs={false}
           infiniteLoop={true}
         >
-          {cryptoData.map((coin) => (
+          {visibleCoins.map((coin) => (
             <div
               key={coin.id}
               className="flex flex-col items-center justify-center rounded-lg p-4"
