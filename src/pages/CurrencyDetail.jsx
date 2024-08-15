@@ -243,11 +243,11 @@ const CurrencyDetail = () => {
             </div>
           </div>
 
-          <div className="w-full lg:w-[65%]">
+          <div className="w-full  lg:w-[65%]">
             <div className="flex flex-col items-center">
               <Line data={data} options={options} className="w-full" />
               <div className="flex justify-around w-full mt-5">
-                {["24h", "30d", "3m", "1y"].map((range) => (
+                {["24 Hours", "30 Days", "3 Month", "1 Years"].map((range) => (
                   <button
                     key={range}
                     onClick={() => handleTimeRangeChange(range)}
@@ -256,7 +256,7 @@ const CurrencyDetail = () => {
                       timeRange === range
                         ? "bg-[rgba(135,206,235,1)] text-black"
                         : "bg-transparent text-white"
-                    }`}
+                    } hover:bg-[rgba(135,206,235,1)] hover:text-black transition-transform duration-1000`}
                   >
                     {range}
                   </button>
