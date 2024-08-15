@@ -1,0 +1,60 @@
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+}
+
+.close-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+/* styles.css */
+/* Overlay uslublari */
+.overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal uslublari */
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  max-width: 90%;
+  /* Mobil qurilmalarda ham yaxshi ko‘rinish uchun */
+  max-height: 80vh;
+  /* Modalning balandligi ekranga sig‘ishi uchun */
+  overflow-y: auto;
+  /* Modalda uzoq matn bo‘lsa, skroll bo‘lishi uchun */
+}
+
+/* Modalni yopish tugmasi uslublari */
+.close-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+  /* Tugmani modalning pastki qismidan ajratish uchun */
+} 
