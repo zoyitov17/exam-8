@@ -42,7 +42,7 @@ function CryptoCarousel() {
           Get all the Info regarding your favorite Crypto Currency
         </p>
         <Carousel
-          className="mt-10 h-48"
+          className="h-48 max-w-6xl mx-auto my-0 mt-10"
           showArrows={true}
           showThumbs={false}
           infiniteLoop={true}

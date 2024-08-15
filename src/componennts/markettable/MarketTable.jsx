@@ -68,7 +68,7 @@ const MarketTable = ({ currency }) => {
 
   const Pagination = ({ totalPages, currentPage, onPageChange }) => {
     const pageNumbers = [];
-    const maxPageNumbers = 5; 
+    const maxPageNumbers = 5;
 
     for (let i = 1; i <= totalPages; i++) {
       if (
@@ -136,7 +136,7 @@ const MarketTable = ({ currency }) => {
       <h2 className="text-white text-[34px] mb-7 font-normal leading-[42px] tracking-[0.25px] text-center">
         Cryptocurrency Prices by Market Cap
       </h2>
-      <div className="max-w-6xl ">
+      <div className="max-w-7xl ">
         <input
           type="text"
           className="bg-transparent border h-14 border-[rgba(255,255,255,0.7)] outline-none w-full mb-5 text-base font-normal leading-4 text-[rgba(255,255,255,0.7)]"
