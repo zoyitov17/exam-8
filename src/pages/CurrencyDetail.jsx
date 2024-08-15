@@ -8,7 +8,7 @@ const CurrencyDetail = () => {
   const { coinId } = useParams();
   const [coinData, setCoinData] = useState(null);
   const [error, setError] = useState(null);
-  const [timeRange, setTimeRange] = useState("7d"); 
+  const [timeRange, setTimeRange] = useState("7d");
   const [chartData, setChartData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -100,13 +100,14 @@ const CurrencyDetail = () => {
       ? `${date.getHours()}:${date.getMinutes()}`
       : date.toLocaleDateString();
   });
+
   const chartPrices = chartData.map((item) => item[1]);
 
   const data = {
     labels: chartLabels,
     datasets: [
       {
-        label: `Price (INR)`,
+        label: "Price (INR)",
         data: chartPrices,
         fill: true,
         backgroundColor: "rgba(56, 189, 248, 0.2)",
@@ -136,7 +137,7 @@ const CurrencyDetail = () => {
         ticks: {
           color: "white",
           callback: function (value) {
-            return value.toFixed(2);  
+            return value.toFixed(2);
           },
         },
         grid: {
@@ -154,7 +155,6 @@ const CurrencyDetail = () => {
       },
     },
   };
-
 
   return (
     <div>
@@ -251,19 +251,14 @@ const CurrencyDetail = () => {
                   <button
                     key={range}
                     onClick={() => handleTimeRangeChange(range)}
-                    className={`${
+                    className={`text-left pl-3 border-[rgba(135,206,235,1)] rounded font-normal border w-[23%] h-7 
+                    ${
                       timeRange === range
                         ? "bg-[rgba(135,206,235,1)] text-black"
-                        : "bg-[rgba(128,128,128,1)] text-white"
-                    } px-4 py-2 rounded font-medium`}
+                        : "bg-transparent text-white"
+                    }`}
                   >
-                    {range === "24h"
-                      ? "24 Hours"
-                      : range === "30d"
-                      ? "30 Days"
-                      : range === "3m"
-                      ? "3 Months"
-                      : "1 Year"}
+                    {range}
                   </button>
                 ))}
               </div>
@@ -276,3 +271,4 @@ const CurrencyDetail = () => {
 };
 
 export default CurrencyDetail;
+
