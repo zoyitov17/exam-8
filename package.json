@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.1.2",
+    "@reduxjs/toolkit": "^2.2.7",
     "apexcharts": "^3.52.0",
     "axios": "^1.7.4",
     "carousel": "^0.0.3",
@@ -19,6 +20,7 @@
     "flowbite-react": "^0.10.1",
     "lodash": "^4.17.21",
     "package-name": "^0.1.0",
+    "reacr": "^1.0.0",
     "react": "^18.3.1",
     "react-apexcharts": "^1.4.1",
     "react-chartjs-2": "^5.2.0",

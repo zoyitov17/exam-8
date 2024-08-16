@@ -34,10 +34,11 @@ const MarketTable = ({ currency }) => {
   };
 
   const formatChangeColor = (percentage) => {
-    if (percentage > 1) return "text-green-500";
-    if (percentage < 0) return "text-red-500";
-    return "text-white";
+    if (percentage > 1) return "text-green-500";  
+    if (percentage < 1) return "text-red-500"; 
+    return "text-white"; 
   };
+
 
   const getCurrencySymbol = (currency) => {
     switch (currency.toUpperCase()) {
@@ -187,13 +188,15 @@ const MarketTable = ({ currency }) => {
                 <td className="p-4 text-sm font-normal leading-[20.02px] text-right text-[rgba(255,255,255,1)]">
                   {formatCurrency(coin.current_price)}
                 </td>
-                <td
-                  className={`p-4 text-sm font-medium leading-[20.02px] text-right ${formatChangeColor(
-                    coin.price_change_percentage_24h
-                  )}`}
-                >
-                  <FaEye className="inline-block mr-2 w-[26px] h-6" />
-                  {coin.price_change_percentage_24h.toFixed(2)}%
+                <td className="p-4 text-sm font-medium leading-[20.02px] text-right">
+                  <FaEye className="inline-block mr-2 w-[26px] h-6 text-white" />
+                  <span
+                    className={formatChangeColor(
+                      coin.price_change_percentage_24h
+                    )}
+                  >
+                    {coin.price_change_percentage_24h.toFixed(2)}%
+                  </span>
                 </td>
                 <td className="p-4 text-sm font-normal leading-[20.02px] text-[rgba(255,255,255,1)] tracking-[0.15000000596046448px] text-right">
                   {formatCurrency(coin.market_cap / 1e6)}M
