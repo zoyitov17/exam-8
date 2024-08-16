@@ -5,9 +5,18 @@ import "./style.css";
 
 function CryptoCarousel() {
   const [cryptoData, setCryptoData] = useState([]);
-  const [visibleCoins, setVisibleCoins] = useState([]);
-  const [startIndex, setStartIndex] = useState(0);
   const itemsPerPage = 4;
+
+  const customCarouselTheme = {
+    root: {
+      base: "relative h-full w-full",
+      leftControl: "hidden",
+      rightControl: "hidden",
+    },
+    indicators: {
+      wrapper: "hidden",
+    },
+  };
 
   useEffect(() => {
     axios
@@ -16,30 +25,11 @@ function CryptoCarousel() {
       )
       .then((response) => {
         setCryptoData(response.data);
-        setVisibleCoins(response.data.slice(0, itemsPerPage));
       })
       .catch((error) => {
         console.error("Error fetching cryptocurrency data:", error);
       });
   }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setStartIndex((prevIndex) => {
-        const nextIndex = prevIndex + itemsPerPage;
-        if (nextIndex >= cryptoData.length) {
-          return 0; 
-        }
-        return nextIndex;
-      });
-    }, 3000); 
-
-    return () => clearInterval(interval);
-  }, [cryptoData]);
-
-  useEffect(() => {
-    setVisibleCoins(cryptoData.slice(startIndex, startIndex + itemsPerPage));
-  }, [startIndex, cryptoData]);
 
   const formatChangeColor = (percentage) => {
     if (percentage > 0) return "text-green-500";
@@ -64,36 +54,49 @@ function CryptoCarousel() {
           Get all the Info regarding your favorite Crypto Currency
         </p>
         <Carousel
-          className="h-48 max-w-6xl mx-auto my-0 mt-10"
+          theme={customCarouselTheme}
+          className="h-48 max-w-6xl mx-auto my-0 mt-5"
           showArrows={false}
           showThumbs={false}
           infiniteLoop={true}
+          slideInterval={3000} // Set slide interval to 3000 milliseconds (3 seconds)
         >
-          {visibleCoins.map((coin) => (
-            <div
-              key={coin.id}
-              className="flex flex-col items-center justify-center rounded-lg p-4"
-            >
-              <img
-                src={coin.image}
-                alt={coin.name}
-                className="w-20 h-20 mb-4"
-              />
-              <div className="flex items-center mb-2">
-                <span className="text-white text-sm font-normal text-[rgba(255,255,255,1)] mr-2">
-                  {coin.symbol.toUpperCase()}
-                </span>
-                <span
-                  className={`text-sm font-medium ${formatChangeColor(
-                    coin.price_change_percentage_24h
-                  )}`}
-                >
-                  {coin.price_change_percentage_24h.toFixed(2)}%
-                </span>
-              </div>
-              <p className="text-white text-sm font-medium">
-                {`${(coin.market_cap / 1e6).toLocaleString()}M`}
-              </p>
+          {Array.from({
+            length: Math.ceil(cryptoData.length / itemsPerPage),
+          }).map((_, index) => (
+            <div key={index} className="flex justify-evenly">
+              {cryptoData
+                .slice(
+                  index * itemsPerPage,
+                  index * itemsPerPage + itemsPerPage
+                )
+                .map((coin) => (
+                  <div
+                    key={coin.id}
+                    className="flex flex-col items-center justify-center rounded-lg p-4"
+                  >
+                    <img
+                      src={coin.image}
+                      alt={coin.name}
+                      className="w-20 h-20 mb-4"
+                    />
+                    <div className="flex items-center mb-2">
+                      <span className="text-white text-sm font-normal text-[rgba(255,255,255,1)] mr-2">
+                        {coin.symbol.toUpperCase()}
+                      </span>
+                      <span
+                        className={`text-sm font-medium ${formatChangeColor(
+                          coin.price_change_percentage_24h
+                        )}`}
+                      >
+                        {coin.price_change_percentage_24h.toFixed(2)}%
+                      </span>
+                    </div>
+                    <p className="text-white text-sm font-medium">
+                      {`${(coin.market_cap / 1e6).toLocaleString()}M`}
+                    </p>
+                  </div>
+                ))}
             </div>
           ))}
         </Carousel>

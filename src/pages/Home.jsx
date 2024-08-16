@@ -3,6 +3,7 @@ import Nav from "../componennts/nav/Nav";
 import Header from "../componennts/header/Header";
 import MarketTable from "../componennts/markettable/MarketTable";
 
+
 function Home() {
   const [currency, setCurrency] = useState("USD");
 

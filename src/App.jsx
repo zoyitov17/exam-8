@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import CurrencyDetail from "./pages/CurrencyDetail";
+import "flowbite/dist/flowbite.css";
 
 function App() {
   return (
