@@ -59,7 +59,7 @@ function CryptoCarousel() {
           showArrows={false}
           showThumbs={false}
           infiniteLoop={true}
-          slideInterval={3000} // Set slide interval to 3000 milliseconds (3 seconds)
+          slideInterval={3000}  
         >
           {Array.from({
             length: Math.ceil(cryptoData.length / itemsPerPage),

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DrawerSection from "../watchlist/WatchList";  
+import DrawerSection from "../watchlist/WatchList";
 
 function Nav({ onCurrencyChange }) {
   const [isOpen, setIsOpen] = useState(false);
